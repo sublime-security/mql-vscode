@@ -24,7 +24,7 @@ jobs:
         run: npm run lint
 
       - name: Build VSIX
-        run: vsce package
+        run: npx vsce package
 
       - name: Upload VSIX
         uses: actions/upload-artifact@v2
