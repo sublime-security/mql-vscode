@@ -1,0 +1,16 @@
+# Ignore everything
+**
+
+# But don't ignore these specific files/directories
+!README.md
+!LICENSE
+
+!package.json
+!package-lock.json
+!tsconfig.json
+
+!syntaxes/mesageQueryLanguage.tmLanguage.json
+!icon.png
+!language-configuration.json
+
+!out/main.js
