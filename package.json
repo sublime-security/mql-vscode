@@ -1,0 +1,137 @@
+{
+	"name": "message-query-language",
+	"displayName": "Message Query Language (MQL)",
+	"description": "Syntax highlighter, formatter, and language client for Message Query Language.",
+	"author": {
+		"name": "Sublime Security",
+		"url": "https://sublime.security"
+	},
+	"publisher": "SublimeSecurity",
+	"license": "MIT",
+	"version": "0.1.0",
+	"icon": "icon.png",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/sublime-security/mql-vscode.git"
+	},
+	"categories": [
+		"Language Packs",
+		"Other"
+	],
+	"engines": {
+		"vscode": "^1.75.0"
+	},
+	"keywords": [
+		"mql",
+		"message query language",
+		"sublime security",
+		"sublime-security",
+		"cybersecurity",
+		"security",
+		"email security"
+	],
+	"main": "./out/main.js",
+	"activationEvents": [
+		"onLanguage:messageQueryLanguage"
+	],
+	"contributes": {
+		"languages": [
+			{
+				"id": "messageQueryLanguage",
+				"extensions": [
+					".mql"
+				],
+				"aliases": [
+					"Message Query Language",
+					"MQL"
+				],
+				"configuration": "./language-configuration.json"
+			}
+		],
+		"grammars": [
+			{
+				"language": "messageQueryLanguage",
+				"scopeName": "source.messageQueryLanguage",
+				"path": "./syntaxes/messageQueryLanguage.tmLanguage.json"
+			}
+		],
+		"configuration": {
+			"title": "Message Query Language (MQL)",
+			"properties": {
+				"sublimeSecurity.messageQueryLanguage.languageServer.enabled": {
+					"type": "boolean",
+					"markdownDescription": "Use the MQL Language Server specified in `languageServerHost`. This establishes a websocket connection to the platform for autocompletion, code analysis, and more.",
+					"title": "Enabled",
+					"default": true,
+					"order": 0
+				},
+				"sublimeSecurity.messageQueryLanguage.languageServer.host": {
+					"type": "string",
+					"description": "The host of the MQL Language Server",
+					"title": "Host",
+					"default": "analyzer.sublimesecurity.com",
+					"order": 1
+				},
+				"sublimeSecurity.messageQueryLanguage.languageServer.apiKey": {
+					"type": "string",
+					"markdownDescription": "Platform API key used for language server authentication. This is only required if the language server is enabled and using a host other than `analyzer.sublimesecurity.com`.",
+					"title": "API key",
+					"order": 2
+				},
+				"sublimeSecurity.messageQueryLanguage.openAI.enabled": {
+					"type": "boolean",
+					"description": "Use OpenAI to enable ChatGPT based completions",
+					"title": "Active",
+					"required": true,
+					"default": true,
+					"order": 3
+				},
+				"sublimeSecurity.messageQueryLanguage.openAI.apiKey": {
+					"type": "string",
+					"description": "API Key for OpenAI to enable ChatGPT based completions",
+					"title": "API Key",
+					"required": true,
+					"order": 4
+				},
+				"sublimeSecurity.messageQueryLanguage.openAI.completionModel": {
+					"type": "string",
+					"description": "The model to use for OpenAI code completions",
+					"title": "Completion Model",
+					"default": "curie:ft-sublime-security-2023-04-21-20-26-44",
+					"order": 5
+				}
+			}
+		}
+	},
+	"scripts": {
+		"vscode:prepublish": "npm run esbuild-base -- --minify",
+		"compile": "npm run esbuild",
+		"watch": "npm run esbuild-watch",
+		"lint": "eslint ./src --ext .ts,.tsx",
+		"esbuild-base": "esbuild ./src/extension.ts --bundle --outfile=out/main.js --external:vscode --format=cjs --platform=node",
+		"esbuild": "npm run esbuild-base -- --sourcemap",
+		"esbuild-watch": "npm run esbuild-base -- --sourcemap --watch",
+		"test-compile": "tsc -p ./"
+	},
+	"devDependencies": {
+		"@types/mocha": "^9.1.0",
+		"@types/node": "^16.18.38",
+		"@types/vscode": "^1.75.1",
+		"@types/ws": "^8.5.5",
+		"@typescript-eslint/eslint-plugin": "^5.54.0",
+		"@typescript-eslint/parser": "^5.54.0",
+		"@vscode/test-electron": "^2.2.3",
+		"esbuild": "^0.18.15",
+		"eslint": "^8.35.0",
+		"@vscode/vsce": "^2.19.0"
+	},
+	"dependencies": {
+		"axios": "^1.4.0",
+		"mocha": "^9.2.1",
+		"openai": "^3.3.0",
+		"typescript": "^5.0.2",
+		"vscode-jsonrpc": "^8.1.0",
+		"vscode-languageclient": "^8.1.0",
+		"ws": "^8.13.0"
+	}
+}
