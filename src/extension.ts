@@ -152,9 +152,8 @@ function activateLanguageServer(context: ExtensionContext) {
 		// Register the server for plain text documents
 		documentSelector: [
 			{
-				scheme: 'file',
-				language: languageID,
-				pattern: '**/*.mql',
+				// all instances of MQL, not just saved files. this means scratch/unsaved files work too
+				language: languageID
 			}
 		],
 		synchronize: {
@@ -182,7 +181,7 @@ function deactivateLanguageServer(): Thenable<void> | undefined {
 	return client.stop();
 }
 
-function getOpenAIClient() : OpenAIApi | undefined {
+function getOpenAIClient(): OpenAIApi | undefined {
 	const openAIConfigName = configName + ".openAI";
 	const config = vscode.workspace.getConfiguration(openAIConfigName);
 	const apiKey = config.get('apiKey');

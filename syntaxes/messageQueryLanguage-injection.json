@@ -1,0 +1,17 @@
+{
+	"fileTypes": [],
+	"injectionSelector": "L:source.yaml",
+	"patterns": [
+		{
+			"begin": "(?<=^source: \\|\\s*\\n)",
+			"end": "(?=^\\S)",
+			"contentName": "source.mql",
+			"patterns": [
+				{
+					"include": "source.mql"
+				}
+			]
+		}
+	],
+	"scopeName": "source.mql.injection"
+}

@@ -1,0 +1,77 @@
+{
+	"title": "Sublime Security MQL Query",
+	"properties": {
+		"authors": {
+			"items": {
+				"properties": {
+					"name": {
+						"type": "string"
+					},
+					"twitter": {
+						"type": "string"
+					}
+				},
+				"type": "object"
+			},
+			"type": "array"
+		},
+		"description": {
+			"type": "string"
+		},
+		"false_positives": {
+			"items": {
+				"type": "string"
+			},
+			"type": "array"
+		},
+		"label": {
+			"nullable": true,
+			"type": "string"
+		},
+		"maturity": {
+			"nullable": true,
+			"type": "string"
+		},
+		"name": {
+			"type": "string"
+		},
+		"references": {
+			"items": {
+				"type": "string"
+			},
+			"type": "array"
+		},
+		"severity": {
+			"nullable": true,
+			"type": "string"
+		},
+		"source": {
+			"type": "string"
+		},
+		"tags": {
+			"items": {
+				"type": "string"
+			},
+			"type": "array"
+		},
+		"type": {
+			"default": "query",
+			"enum": [
+				"query"
+			],
+			"type": "string"
+		},
+		"user_provided_tags": {
+			"items": {
+				"type": "string"
+			},
+			"type": "array"
+		}
+	},
+	"required": [
+		"name",
+		"source",
+		"type"
+	],
+	"type": "object"
+}

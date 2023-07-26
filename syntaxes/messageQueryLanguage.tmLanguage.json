@@ -1,102 +1,138 @@
 {
 	"name": "messageQueryLanguage",
-	"scopeName": "source.messageQueryLanguage",
-	"fileTypes": ["mql"],
+	"scopeName": "source.mql",
+	"fileTypes": [
+		"mql"
+	],
 	"patterns": [
-	  {
-	  	"begin": "//",
-	  	"end": "$",
-	  	"name": "comment.line.double-slash"
-	  },
-	  {
-		"match": "\\b(and|of|or|not|in~|in|is)\\b",
-		"name": "keyword.logical.$1"
-	  },
-	  {
-		"match": "\\b(true|false|null)\\b",
-		"name": "constant.language.$0"
-	  },
-	  {
-		"begin": "\\b(any|all|coalesce|distinct|filter|length|map|sum)\\b",
-		"end": "(?=\\()",
-		"name": "entity.name.function.builtin.$1"
-	  },
-	  {
-		"match": "\\$[a-zA-Z_][.a-zA-Z0-9_]*",
-		"name": "variable.other.list"
-	  },
-	  {
-		"match": "<=?|>=?|==|!=|=~|!~",
-		"name": "keyword.operator.comparison"
-	  },
-	  {
-		"match": "\\+|-|\\*|\\/|%",
-		"name": "keyword.operator.arithmetic"
-	  },
-	  {
-		"begin": "\\d+\\.\\d+",
-		"end": "(?=[^_a-zA-Z0-9])",
-		"name": "constant.numeric.float"
-	  },
-	  {
-		"begin": "\\d+",
-		"end": "(?=[^_a-zA-Z0-9])",
-		"name": "constant.numeric.integer"
-	  },
-	  {
-		"begin": "\"",
-		"end": "[\"\\r\\n\\t]",
-		"name": "string.quoted.double",
-		
-		"patterns": [
-			{
-			  "match": "[^\\\\\"\\r\\n\\t]+",
-			  "name": "string"
-			},
-			{
-			  "match": "\\\\[trn\"\\\\]",
-			  "name": "constant.character.escape"
-			},
-			{
-			  "match": "\\\\u\\{[0-9a-fA-F]{2,8}}",
-			  "name": "constant.character.escape.unicode"
-			},
-			{
-			  "match": "\\\\.",
-			  "name": "invalid"
-			}
-		]
-	  },
-	  {
-		"begin": "'",
-		"end": "'",
-		"name": "string.quoted.single",
-		"patterns": [
-		  {
-			"match": "''",
-			"name": "constant.character.escape"
-		  }
-		]
-	  },
-	  {
-		  "match": "((?:[A-Za-z_][A-Za-z0-9_]*\\.)*)([A-Za-z_][A-Za-z0-9_]*)(?=\\s*\\()",
-		  "name": "identifier.function",
-		  "captures": {
-				"1": {
-					"name": "entity.name.namespace"
-				},
-				"2": {
-					"name": "entity.name.function"
-				}
-			}
+		{
+			"include": "#comment"
 		},
 		{
-			"match": "(?:\\.[A-Za-z_][A-Za-z0-9_]*)+",
-			"name": "variable.parameter.loop_item.path"
-	  	},
+			"include": "#operators"
+		},
 		{
-			"match": "(?:[A-Za-z_][A-Za-z0-9_]*\\.)*(?:[A-Za-z_][A-Za-z0-9_]*)",
-			"name": "entity.path"
+			"include": "#literals"
+		},
+		{
+			"include": "#functions"
+		},
+		{
+			"include": "#identifiers"
 		}
-	]
+	],
+	"repository": {
+		"comment": {
+			"begin": "//",
+			"end": "$",
+			"name": "comment.line.double-slash.mql"
+		},
+		"operators": {
+			"patterns": [
+				{
+					"match": "\\b(and|of|or|not|in~|in|is)\\b",
+					"name": "keyword.logical.$1.mql"
+				},
+				{
+					"match": "<=?|>=?|==|!=|=~|!~",
+					"name": "keyword.operator.comparison.mql"
+				},
+				{
+					"match": "\\+|-|\\*|\\/|%",
+					"name": "keyword.operator.arithmetic.mql"
+				}
+			]
+		},
+		"literals": {
+			"patterns": [
+				{
+					"match": "\\b(true|false|null)\\b",
+					"name": "constant.language.$0.mql"
+				},
+				{
+					"begin": "\\d+\\.\\d+",
+					"end": "(?=[^_a-zA-Z0-9])",
+					"name": "constant.numeric.float.mql"
+				},
+				{
+					"begin": "\\d+",
+					"end": "(?=[^_a-zA-Z0-9])",
+					"name": "constant.numeric.integer.mql"
+				},
+				{
+					"begin": "\"",
+					"end": "[\"\\r\\n\\t]",
+					"name": "string.quoted.double.mql",
+					"patterns": [
+						{
+							"match": "[^\\\\\"\\r\\n\\t]+"
+						},
+						{
+							"match": "\\\\[trn\"\\\\]",
+							"name": "constant.character.escape.mql"
+						},
+						{
+							"match": "\\\\u\\{[0-9a-fA-F]{2,8}}",
+							"name": "constant.character.escape.unicode.mql"
+						},
+						{
+							"match": "\\\\.",
+							"name": "invalid.mql"
+						}
+					]
+				},
+				{
+					"begin": "'",
+					"end": "['\\r\\n\\t]",
+					"name": "string.quoted.single",
+					"patterns": [
+						{
+							"match": "[^\\\\'\\r\\n\\t]+"
+						},
+						{
+							"match": "''",
+							"name": "constant.character.escape.mql"
+						}
+					]
+				}
+			]
+		},
+		"functions": {
+			"patterns": [
+				{
+					"begin": "\\b(any|all|coalesce|distinct|filter|length|map|sum)\\b",
+					"end": "(?=\\()",
+					"name": "entity.name.function.builtin.$1.mql"
+				},
+				{
+					"match": "((?:[A-Za-z_][A-Za-z0-9_]*\\.)*)([A-Za-z_][A-Za-z0-9_]*)(?=\\s*\\()",
+					"name": "identifier.function.mql",
+					"captures": {
+						"1": {
+							"name": "entity.name.namespace.mql"
+						},
+						"2": {
+							"name": "entity.name.function.mql"
+						}
+					}
+				}
+			]
+		},
+		"identifiers": {
+			"patterns": [
+				{
+					"match": "\\$[a-zA-Z_][.a-zA-Z0-9_]*",
+					"name": "variable.other.list.mql"
+				},
+				{
+					"match": "(?:\\.[A-Za-z_][A-Za-z0-9_]*)+",
+					"name": "variable.parameter.loop_item.path.mql"
+				},
+				{
+					"match": "(?:[A-Za-z_][A-Za-z0-9_]*\\.)*(?:[A-Za-z_][A-Za-z0-9_]*)",
+					"name": "entity.name.path.mql"
+				}
+			]
+		}
+	}
 }
