@@ -2,26 +2,21 @@
 	"title": "Sublime Security MQL Rule",
 	"properties": {
 		"action_ids": {
-			"description": "IDs of actions to run when the rule is triggered",
 			"items": {
 				"type": "string"
 			},
 			"type": "array"
 		},
 		"active": {
-			"description": "Activate the rule immediately",
 			"type": "boolean"
 		},
 		"authors": {
-			"description": "Rule authors. Defaults to the user that made the request",
 			"items": {
 				"properties": {
 					"name": {
-						"description": "Name of a rule author",
 						"type": "string"
 					},
 					"twitter": {
-						"description": "Twitter handle for a rule author",
 						"type": "string"
 					}
 				},
@@ -30,55 +25,45 @@
 			"type": "array"
 		},
 		"description": {
-			"description": "Description of rule",
 			"type": "string"
 		},
 		"false_positives": {
-			"description": "Descriptions of known false positives that could occur",
 			"items": {
 				"type": "string"
 			},
 			"type": "array"
 		},
 		"label": {
-			"description": "Rule label",
 			"nullable": true,
 			"type": "string"
 		},
 		"maturity": {
-			"description": "Rule maturity",
 			"nullable": true,
 			"type": "string"
 		},
 		"name": {
-			"description": "Rule name",
 			"type": "string"
 		},
 		"references": {
-			"description": "URL references",
 			"items": {
 				"type": "string"
 			},
 			"type": "array"
 		},
 		"severity": {
-			"description": "Rule severity",
 			"nullable": true,
 			"type": "string"
 		},
 		"source": {
-			"description": "Source",
 			"type": "string"
 		},
 		"tags": {
-			"description": "Tags",
 			"items": {
 				"type": "string"
 			},
 			"type": "array"
 		},
 		"type": {
-			"description": "Type of the MQL file (always `query`)",
 			"default": "rule",
 			"enum": [
 				"rule"
@@ -86,7 +71,6 @@
 			"type": "string"
 		},
 		"user_provided_tags": {
-			"description": "User-provided tags",
 			"items": {
 				"type": "string"
 			},

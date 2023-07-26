@@ -3,7 +3,7 @@
 	"injectionSelector": "L:source.yaml",
 	"patterns": [
 		{
-			"begin": "(?<=source: \\|\\s*\\n)",
+			"begin": "(?<=^source: \\|\\s*\\n)",
 			"end": "(?=^\\S)",
 			"contentName": "source.mql",
 			"patterns": [
