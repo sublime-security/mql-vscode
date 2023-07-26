@@ -9,7 +9,8 @@
 !package-lock.json
 !tsconfig.json
 
-!syntaxes/mesageQueryLanguage.tmLanguage.json
+!schemas/*.json
+!syntaxes/*.json
 !icon.png
 !language-configuration.json
 

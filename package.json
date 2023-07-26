@@ -32,7 +32,8 @@
 	],
 	"main": "./out/main.js",
 	"activationEvents": [
-		"onLanguage:messageQueryLanguage"
+		"onLanguage:messageQueryLanguage",
+		"onLanguage:yaml"
 	],
 	"contributes": {
 		"languages": [
@@ -51,8 +52,37 @@
 		"grammars": [
 			{
 				"language": "messageQueryLanguage",
-				"scopeName": "source.messageQueryLanguage",
+				"scopeName": "source.mql",
 				"path": "./syntaxes/messageQueryLanguage.tmLanguage.json"
+			},
+			{
+				"path": "./syntaxes/messageQueryLanguage-injection.json",
+				"scopeName": "source.mql.injection",
+				"injectTo": [
+					"source.yaml"
+				],
+				"embeddedLanguages": {
+					"source.mql": "messageQueryLanguage"
+				},
+				"tokenTypes": {
+					"source.mql": "other"
+				}
+			}
+		],
+		"yamlValidation": [
+			{
+				"fileMatch": [
+					"detection-rules/**/*.yml",
+					"discovery-rules/**/*.yml"
+				],
+				"url": "./schemas/sublimeRule.json"
+			},
+			{
+				"fileMatch": [
+					"signals/**/*.yml",
+					"insights/**/*.yml"
+				],
+				"url": "./schemas/sublimeQuery.json"
 			}
 		],
 		"configuration": {

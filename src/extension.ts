@@ -152,9 +152,8 @@ function activateLanguageServer(context: ExtensionContext) {
 		// Register the server for plain text documents
 		documentSelector: [
 			{
-				scheme: 'file',
-				language: languageID,
-				pattern: '**/*.mql',
+				// scheme: 'file',
+				language: languageID
 			}
 		],
 		synchronize: {
