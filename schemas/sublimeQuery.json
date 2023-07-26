@@ -1,27 +1,16 @@
 {
 	"title": "Sublime Security MQL Query",
 	"properties": {
-		"action_ids": {
-			"description": "IDs of actions to run when the rule is triggered",
-			"items": {
-				"type": "string"
-			},
-			"type": "array"
-		},
-		"active": {
-			"description": "Activate the rule immediately",
-			"type": "boolean"
-		},
 		"authors": {
-			"description": "Rule authors. Defaults to the user that made the request",
+			"description": "Authors. Defaults to the user that made the request",
 			"items": {
 				"properties": {
 					"name": {
-						"description": "Name of a rule author",
+						"description": "Name of an author",
 						"type": "string"
 					},
 					"twitter": {
-						"description": "Twitter handle for a rule author",
+						"description": "Twitter handle for an author",
 						"type": "string"
 					}
 				},
@@ -30,7 +19,7 @@
 			"type": "array"
 		},
 		"description": {
-			"description": "Description of rule",
+			"description": "Description of the query",
 			"type": "string"
 		},
 		"false_positives": {
@@ -41,17 +30,14 @@
 			"type": "array"
 		},
 		"label": {
-			"description": "Rule label",
 			"nullable": true,
 			"type": "string"
 		},
 		"maturity": {
-			"description": "Rule maturity",
 			"nullable": true,
 			"type": "string"
 		},
 		"name": {
-			"description": "Rule name",
 			"type": "string"
 		},
 		"references": {
@@ -78,7 +64,7 @@
 			"type": "array"
 		},
 		"type": {
-			"description": "Type of the query",
+			"description": "Type of the MQL file (always `query`)",
 			"default": "query",
 			"enum": [
 				"query"

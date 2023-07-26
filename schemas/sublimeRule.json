@@ -78,7 +78,7 @@
 			"type": "array"
 		},
 		"type": {
-			"description": "Type of the rule",
+			"description": "Type of the MQL file (always `query`)",
 			"default": "rule",
 			"enum": [
 				"rule"

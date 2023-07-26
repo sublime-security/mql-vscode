@@ -152,7 +152,7 @@ function activateLanguageServer(context: ExtensionContext) {
 		// Register the server for plain text documents
 		documentSelector: [
 			{
-				// scheme: 'file',
+				// all instances of MQL, not just saved files. this means scratch/unsaved files work too
 				language: languageID
 			}
 		],
