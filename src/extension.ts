@@ -181,7 +181,7 @@ function deactivateLanguageServer(): Thenable<void> | undefined {
 	return client.stop();
 }
 
-function getOpenAIClient() : OpenAIApi | undefined {
+function getOpenAIClient(): OpenAIApi | undefined {
 	const openAIConfigName = configName + ".openAI";
 	const config = vscode.workspace.getConfiguration(openAIConfigName);
 	const apiKey = config.get('apiKey');
