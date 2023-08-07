@@ -17,6 +17,8 @@ let client: LanguageClient;
 const configName = 'sublimeSecurity.messageQueryLanguage';
 const languageID = 'messageQueryLanguage';
 
+type OpenAIClientAndCompletionModel = {client: OpenAIApi, completionModel: string};
+
 class WebSocketMessageReader implements MessageReader {
 	private errorEmitter = new Emitter<Error>();
 	private closeEmitter = new Emitter<void>();
@@ -181,7 +183,7 @@ function deactivateLanguageServer(): Thenable<void> | undefined {
 	return client.stop();
 }
 
-function getOpenAIClient(): OpenAIApi | undefined {
+function getOpenAIClient(): OpenAIClientAndCompletionModel | undefined {
 	const openAIConfigName = configName + ".openAI";
 	const config = vscode.workspace.getConfiguration(openAIConfigName);
 	const apiKey = config.get('apiKey');
@@ -202,13 +204,14 @@ function getOpenAIClient(): OpenAIApi | undefined {
 		return;
 	}
 
-	return new OpenAIApi(new Configuration({
-		apiKey: apiKey as string,
-	}));
+	return {
+		client: new OpenAIApi(new Configuration({apiKey: apiKey as string})),
+		completionModel: completionModel as string,
+	};
 }
 
 export function activateOpenAI(context: vscode.ExtensionContext) {
-	let openAIClient: OpenAIApi | undefined = undefined;
+	let clientAndModel: OpenAIClientAndCompletionModel | undefined = undefined;
 	let loadedClient = false;
 
 	vscode.workspace.onDidChangeTextDocument(handleTextDocumentChange, null, context.subscriptions);
@@ -227,10 +230,10 @@ export function activateOpenAI(context: vscode.ExtensionContext) {
 					// Lazily load the OpenAI client after commments are triggered
 					if (!loadedClient) {
 						loadedClient = true;
-						openAIClient = getOpenAIClient();
+						clientAndModel = getOpenAIClient();
 					}
 
-					if (!openAIClient) {
+					if (!clientAndModel) {
 						return;
 					}
 
@@ -256,9 +259,9 @@ export function activateOpenAI(context: vscode.ExtensionContext) {
 	}
 
 	async function requestMqlTranslation(comment: string): Promise<string> {
-		return openAIClient
+		return clientAndModel.client
 			.createCompletion({
-				model: "curie:ft-sublime-security-2023-08-05-00-34-40",
+				model: clientAndModel.completionModel,
 				max_tokens: 128,
 				temperature: 0.3,
 				stop: ["\n"],
