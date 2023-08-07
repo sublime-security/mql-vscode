@@ -8,7 +8,7 @@
 	},
 	"publisher": "SublimeSecurity",
 	"license": "MIT",
-	"version": "0.1.0",
+	"version": "0.1.1",
 	"icon": "icon.png",
 	"repository": {
 		"type": "git",
@@ -127,7 +127,7 @@
 					"type": "string",
 					"description": "The model to use for OpenAI code completions",
 					"title": "Completion Model",
-					"default": "curie:ft-sublime-security-2023-04-21-20-26-44",
+					"default": "curie:ft-sublime-security-2023-08-05-00-34-40",
 					"order": 5
 				}
 			}
