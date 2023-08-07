@@ -258,11 +258,11 @@ export function activateOpenAI(context: vscode.ExtensionContext) {
 	async function requestMqlTranslation(comment: string): Promise<string> {
 		return openAIClient
 			.createCompletion({
-				model: "curie:ft-sublime-security-2023-04-21-20-26-44",
+				model: "curie:ft-sublime-security-2023-08-05-00-34-40",
 				max_tokens: 128,
 				temperature: 0.3,
-				stop: "END",
-				prompt: `in mql ${comment.replace("'", "\"")} ->`,
+				stop: ["\n"],
+				prompt: `${comment.replace("'", "\"")} ->`,
 			})
 			.catch((err: any) => {
 				vscode.window.showErrorMessage("Error fetching MQL translation: ", err);
