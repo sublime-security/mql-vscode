@@ -39,9 +39,9 @@ The MQL extension for Visual Studio code provides validation and completion capa
 
 - [Sublime Security homepage](https://sublime.security)
 - [Detection rules](https://github.com/sublime-security/detection-rules) on GitHub
-- [Sublime Security Platform](https://platform.sublimesecurity.com)
-- [Platform documentation](https://docs.sublimesecurity.com/docs)
-	- [Message Data Model (MDM)](https://docs.sublimesecurity.com/docs/message-data-model)
-	- [Message Query Language (MDM)](https://docs.sublimesecurity.com/docs/message-query-language)
+- [Sublime Security Platform](https://platform.sublime.security)
+- [Platform documentation](https://docs.sublime.security/docs)
+	- [Message Data Model (MDM)](https://docs.sublime.security/docs/mdm)
+	- [Message Query Language (MDM)](https://docs.sublime.security/docs/message-query-language)
 
 <!-- Developers: See https://code.visualstudio.com/api/language-extensions/language-server-extension-guide for more details -->
