@@ -99,12 +99,12 @@
 					"type": "string",
 					"description": "The host of the MQL Language Server",
 					"title": "Host",
-					"default": "analyzer.sublimesecurity.com",
+					"default": "analyzer.sublime.security",
 					"order": 1
 				},
 				"sublimeSecurity.messageQueryLanguage.languageServer.apiKey": {
 					"type": "string",
-					"markdownDescription": "Platform API key used for language server authentication. This is only required if the language server is enabled and using a host other than `analyzer.sublimesecurity.com`.",
+					"markdownDescription": "Platform API key used for language server authentication. This is only required if the language server is enabled and using a host other than `analyzer.sublime.security`.",
 					"title": "API key",
 					"order": 2
 				},
