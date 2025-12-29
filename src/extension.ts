@@ -1,6 +1,4 @@
 import * as vscode from 'vscode';
-import { AxiosResponse } from 'axios';
-import { Configuration, OpenAIApi, CreateCompletionResponse } from "openai";
 import {
 	LanguageClient,
 	LanguageClientOptions,
@@ -16,8 +14,6 @@ let client: LanguageClient;
 
 const configName = 'sublimeSecurity.messageQueryLanguage';
 const languageID = 'messageQueryLanguage';
-
-type OpenAIClientAndCompletionModel = {client: OpenAIApi, completionModel: string};
 
 class WebSocketMessageReader implements MessageReader {
 	private errorEmitter = new Emitter<Error>();
@@ -151,15 +147,12 @@ function activateLanguageServer(context: ExtensionContext) {
 
 	// Options to control the language client
 	const clientOptions: LanguageClientOptions = {
-		// Register the server for plain text documents
 		documentSelector: [
 			{
-				// all instances of MQL, not just saved files. this means scratch/unsaved files work too
 				language: languageID
 			}
 		],
 		synchronize: {
-			// Notify the server about file changes to '.clientrc files contained in the workspace
 			fileEvents: workspace.createFileSystemWatcher('**/*.mql')
 		}
 	};
@@ -183,121 +176,10 @@ function deactivateLanguageServer(): Thenable<void> | undefined {
 	return client.stop();
 }
 
-function getOpenAIClient(): OpenAIClientAndCompletionModel | undefined {
-	const openAIConfigName = configName + ".openAI";
-	const config = vscode.workspace.getConfiguration(openAIConfigName);
-	const apiKey = config.get('apiKey');
-	const completionModel = config.get('completionModel');
-	const enabled = config.get('enabled');
-
-	if (!enabled) {
-		return;
-	}
-
-	if (!apiKey) {
-		vscode.window.showWarningMessage(`OpenAI code completion currently disabled. No OpenAI API token found in the ${openAIConfigName}.apiKey setting or disable using the ${openAIConfigName}.enabled setting.`);
-		return;
-	}
-
-	if (!completionModel) {
-		vscode.window.showWarningMessage(`OpenAI code completion currently disabled. No completion model specified in the ${openAIConfigName}.completionModel setting.`);
-		return;
-	}
-
-	return {
-		client: new OpenAIApi(new Configuration({apiKey: apiKey as string})),
-		completionModel: completionModel as string,
-	};
-}
-
-export function activateOpenAI(context: vscode.ExtensionContext) {
-	let clientAndModel: OpenAIClientAndCompletionModel | undefined = undefined;
-	let loadedClient = false;
-
-	vscode.workspace.onDidChangeTextDocument(handleTextDocumentChange, null, context.subscriptions);
-
-	async function handleTextDocumentChange(event: vscode.TextDocumentChangeEvent) {
-		const editor = vscode.window.activeTextEditor;
-		if (editor && event.contentChanges.length > 0) {
-			const contentChange = event.contentChanges.find(change => change.text.includes('\n'));
-
-			if (contentChange) {
-				const currentLine = contentChange.range.start.line;
-				const line = editor.document.lineAt(currentLine);
-				const comment = extractComment(line.text);
-
-				if (comment) {
-					// Lazily load the OpenAI client after commments are triggered
-					if (!loadedClient) {
-						loadedClient = true;
-						clientAndModel = getOpenAIClient();
-					}
-
-					if (!clientAndModel) {
-						return;
-					}
-
-					const mqlTranslation = await requestMqlTranslation(comment);
-
-					if (mqlTranslation && mqlTranslation.length > 0) {
-						// Insert translation on the next line
-						const positionToInsert = new vscode.Position(currentLine + 1, 0);
-						insertMqlTranslation(editor, mqlTranslation, positionToInsert);
-					}
-				}
-			}
-		}
-	}
-
-	function extractComment(lineText: string): string | null {
-		const regex = /^\s*\/\/\s*(.+)$/;
-		const match = lineText.match(regex);
-		if (match && match[1]) {
-			return match[1].trim();
-		}
-		return null;
-	}
-
-	async function requestMqlTranslation(comment: string): Promise<string> {
-		return clientAndModel.client
-			.createCompletion({
-				model: clientAndModel.completionModel,
-				max_tokens: 128,
-				temperature: 0.3,
-				stop: ["\n"],
-				prompt: `${comment.replace("'", "\"")} ->`,
-			})
-			.catch((err: any) => {
-				vscode.window.showErrorMessage("Error fetching MQL translation: ", err);
-			})
-			.then((res) => {
-				if (res && res.data && res.data.choices && res.data.choices.length > 0) {
-					return res.data.choices[0].text.trim();
-				} else {
-					return "";
-				}
-			});
-	}
-
-	function insertMqlTranslation(editor: vscode.TextEditor, mqlTranslation: string, positionToInsert: vscode.Position) {
-		editor.edit((editBuilder) => {
-			editBuilder.insert(positionToInsert, mqlTranslation);
-		});
-	}
-}
-
-// eslint-disable-next-line @typescript-eslint/no-empty-function
-export function deactivateOpenAI() { }
-
-
 export function activate(context: vscode.ExtensionContext) {
-	console.debug("activating nowzor");
-
 	activateLanguageServer(context);
-	activateOpenAI(context);
 }
 
 export function deactivate() {
 	deactivateLanguageServer();
-	deactivateOpenAI();
 }

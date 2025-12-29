@@ -29,7 +29,6 @@ tags:
 The MQL extension for Visual Studio code provides validation and completion capabilities
 
 - Syntax highlighting
-- ChatGPT based completion for line comments (requires `openAIKey` in settings)
 - Autocompletion (if the Language Server is enabled)
 - Validation of functions and types (if the Language Server is enabled)
 - Diagnostic hints, warnings, and errors (if the Language Server is enabled)
