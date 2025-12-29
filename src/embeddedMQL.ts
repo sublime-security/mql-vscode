@@ -307,20 +307,31 @@ export function createEmbeddedMQLMiddleware(): Middleware {
         const cache = getEmbeddedMQLCachedDocumentData(document);
         const region = cache.region!;
 
-        return edits.map((edit) => {
-          const sourceLine = document.lineAt(region.startLine - 1);
-          const sourceIndent = sourceLine.text.match(/^(\s*)/)?.[0] || "";
-          const blockIndent = sourceIndent + "  ";
+        // Server should return exactly one edit covering the entire masked document
+        if (edits.length !== 1) {
+          return undefined;
+        }
 
-          const formattedLines = edit.newText.split("\n");
-          const reindentedText = formattedLines
-            .map((line: string) =>
-              line.trim() === "" ? "" : blockIndent + line,
-            )
-            .join("\n");
+        const edit = edits[0];
 
-          return new vscode.TextEdit(edit.range, reindentedText);
-        });
+        const sourceLine = document.lineAt(region.startLine - 1);
+        const sourceIndent = sourceLine.text.match(/^(\s*)/)?.[0] || "";
+        const blockIndent = sourceIndent + "  ";
+
+        const formattedLines = edit.newText.split("\n");
+        const reindentedText = formattedLines
+          .map((line: string) =>
+            line.trim() === "" ? "" : blockIndent + line,
+          )
+          .join("\n");
+
+        // Create range covering only the MQL region in the YAML file
+        const startPos = new vscode.Position(region.startLine, 0);
+        const endLine = document.lineAt(region.endLine);
+        const endPos = new vscode.Position(region.endLine, endLine.text.length);
+        const mqlRegionRange = new vscode.Range(startPos, endPos);
+
+        return [new vscode.TextEdit(mqlRegionRange, reindentedText)];
       }
 
       return edits;
