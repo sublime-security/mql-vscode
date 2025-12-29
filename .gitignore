@@ -131,3 +131,7 @@ dist
 
 # VSCode extension
 *.vsix
+
+# VSCode settings
+settings.local.json
+.claude/settings.local.json

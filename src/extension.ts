@@ -9,6 +9,7 @@ import {
 import { Disposable, ExtensionContext, workspace } from 'vscode';
 import { WebSocket, Data as WebSocketData, MessageEvent, ErrorEvent } from 'ws';
 import { Emitter, Event, MessageReader, MessageWriter, Message } from 'vscode-jsonrpc';
+import { createEmbeddedMQLMiddleware, setupEmbeddedMQL, cleanupEmbeddedMQL } from './embeddedMQL';
 
 let client: LanguageClient;
 
@@ -93,7 +94,6 @@ class WebSocketMessageWriter implements MessageWriter {
 	}
 }
 
-
 function activateLanguageServer(context: ExtensionContext) {
 	// The server is implemented in node
 	const languageServerConfigName = configName + ".languageServer";
@@ -150,11 +150,15 @@ function activateLanguageServer(context: ExtensionContext) {
 		documentSelector: [
 			{
 				language: languageID
+			},
+			{
+				language: 'yaml'
 			}
 		],
 		synchronize: {
 			fileEvents: workspace.createFileSystemWatcher('**/*.mql')
-		}
+		},
+		middleware: createEmbeddedMQLMiddleware()
 	};
 
 	// Create the language client and start the client.
@@ -165,11 +169,21 @@ function activateLanguageServer(context: ExtensionContext) {
 		clientOptions
 	);
 
+	// Set up embedded MQL support BEFORE starting the client
+	// (middleware needs these references during client initialization)
+	setupEmbeddedMQL(client, languageID);
+
 	// Start the client. This will also launch the server
-	client.start();
+	client.start().catch((error) => {
+		console.error('Failed to start MQL language server:', error);
+	});
 }
 
+
 function deactivateLanguageServer(): Thenable<void> | undefined {
+	// Clean up embedded MQL resources
+	cleanupEmbeddedMQL();
+
 	if (!client) {
 		return undefined;
 	}
