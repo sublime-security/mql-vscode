@@ -37,7 +37,7 @@ The MQL extension for Visual Studio code provides validation and completion capa
 ## Resources
 
 - [Sublime Security homepage](https://sublime.security)
-- [Detection rules](https://github.com/sublime-security/detection-rules) on GitHub
+- [Detection rules](https://github.com/sublime-security/sublime-rules) on GitHub
 - [Sublime Security Platform](https://platform.sublime.security)
 - [Platform documentation](https://docs.sublime.security/docs)
 	- [Message Data Model (MDM)](https://docs.sublime.security/docs/mdm)
