@@ -8,7 +8,7 @@
 	},
 	"publisher": "SublimeSecurity",
 	"license": "MIT",
-	"version": "0.1.2",
+	"version": "0.2.0",
 	"icon": "icon.png",
 	"repository": {
 		"type": "git",
@@ -107,28 +107,6 @@
 					"markdownDescription": "Platform API key used for language server authentication. This is only required if the language server is enabled and using a host other than `analyzer.sublime.security`.",
 					"title": "API key",
 					"order": 2
-				},
-				"sublimeSecurity.messageQueryLanguage.openAI.enabled": {
-					"type": "boolean",
-					"description": "Use OpenAI to enable ChatGPT based completions",
-					"title": "Active",
-					"required": true,
-					"default": true,
-					"order": 3
-				},
-				"sublimeSecurity.messageQueryLanguage.openAI.apiKey": {
-					"type": "string",
-					"description": "API Key for OpenAI to enable ChatGPT based completions",
-					"title": "API Key",
-					"required": true,
-					"order": 4
-				},
-				"sublimeSecurity.messageQueryLanguage.openAI.completionModel": {
-					"type": "string",
-					"description": "The model to use for OpenAI code completions",
-					"title": "Completion Model",
-					"default": "curie:ft-sublime-security-2023-08-05-00-34-40",
-					"order": 5
 				}
 			}
 		}
@@ -144,24 +122,23 @@
 		"test-compile": "tsc -p ./"
 	},
 	"devDependencies": {
-		"@types/mocha": "^9.1.0",
-		"@types/node": "^16.18.38",
+		"@types/mocha": "^10.0.10",
+		"@types/node": "^25.0.3",
 		"@types/vscode": "^1.75.1",
-		"@types/ws": "^8.5.5",
-		"@typescript-eslint/eslint-plugin": "^5.54.0",
-		"@typescript-eslint/parser": "^5.54.0",
-		"@vscode/test-electron": "^2.2.3",
-		"esbuild": "^0.18.15",
-		"eslint": "^8.35.0",
-		"@vscode/vsce": "^2.19.0"
+		"@types/ws": "^8.18.1",
+		"@typescript-eslint/eslint-plugin": "^8.50.1",
+		"@typescript-eslint/parser": "^8.50.1",
+		"@vscode/test-electron": "^2.5.2",
+		"@vscode/vsce": "^3.7.1",
+		"esbuild": "^0.27.2",
+		"eslint": "^9.39.2",
+		"typescript-eslint": "^8.50.1"
 	},
 	"dependencies": {
-		"axios": "^1.4.0",
-		"mocha": "^9.2.1",
-		"openai": "^3.3.0",
-		"typescript": "^5.0.2",
-		"vscode-jsonrpc": "^8.1.0",
-		"vscode-languageclient": "^8.1.0",
-		"ws": "^8.13.0"
+		"mocha": "^11.7.5",
+		"typescript": "^5.9.3",
+		"vscode-jsonrpc": "^8.2.1",
+		"vscode-languageclient": "^9.0.1",
+		"ws": "^8.18.3"
 	}
 }
